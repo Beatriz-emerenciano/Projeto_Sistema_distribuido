@@ -1,5 +1,5 @@
 # Projeto de Sistemas Distribuídos — Parte 1
-
+Aluna: Beatriz Cristina Emerenciano - RA: 22.222041-0
 ## 📌 Introdução
 
 Este projeto tem como objetivo implementar um sistema distribuído baseado em troca de mensagens entre clientes e servidores, utilizando um broker intermediário.
