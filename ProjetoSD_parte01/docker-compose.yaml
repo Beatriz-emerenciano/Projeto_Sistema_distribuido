@@ -1,0 +1,41 @@
+services:
+  broker:
+    build: .
+    container_name: broker
+    volumes:
+      - ./broker/broker.py:/app/main.py
+    ports:
+      - "5555:5555"
+      - "5556:5556"
+
+  servidor1:
+    build: .
+    container_name: servidor1
+    volumes:
+      - ./server/server.py:/app/main.py
+    depends_on:
+      - broker
+
+  servidor2:
+    build: .
+    container_name: servidor2
+    volumes:
+      - ./server/server.py:/app/main.py
+    depends_on:
+      - broker
+
+  cliente1:
+    build: .
+    container_name: cliente1
+    volumes:
+      - ./client/client.py:/app/main.py
+    depends_on:
+      - broker
+
+  cliente2:
+    build: .
+    container_name: cliente2
+    volumes:
+      - ./client/client.py:/app/main.py
+    depends_on:
+      - broker
