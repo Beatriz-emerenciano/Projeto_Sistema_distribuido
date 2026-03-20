@@ -1,6 +1,7 @@
 
 # Projeto de Sistemas Distribuídos
 Beatriz Cristina Emerenciano RA: 22.222041-0
+
 Larissa Santos Fiuza RA: 22.123.042-8
 
 ## 📌 Introdução
