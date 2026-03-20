@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   broker:
     build: .
@@ -17,10 +19,8 @@ services:
       - broker
 
   servidor2:
-    build: .
+    build: ./server-java
     container_name: servidor2
-    volumes:
-      - ./server/server.py:/app/main.py
     depends_on:
       - broker
 
@@ -33,9 +33,7 @@ services:
       - broker
 
   cliente2:
-    build: .
+    build: ./client-java
     container_name: cliente2
-    volumes:
-      - ./client/client.py:/app/main.py
     depends_on:
       - broker

@@ -45,7 +45,7 @@ socket.connect("tcp://broker:5556")
 print("Servidor rodando...")
 
 while True:
-    mensagem = msgpack.unpackb(socket.recv())
+    mensagem = msgpack.unpackb(socket.recv(), raw=False)
     tipo = mensagem["tipo"]
     dados = mensagem["dados"]
 

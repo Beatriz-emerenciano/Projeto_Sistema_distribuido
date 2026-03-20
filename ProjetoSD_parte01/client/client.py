@@ -22,6 +22,6 @@ comandos = [
 for tipo, dados in comandos:
     mensagem = criar_mensagem(tipo, dados)
     socket.send(mensagem)
-    resposta = msgpack.unpackb(socket.recv())
+    resposta = msgpack.unpackb(socket.recv(), raw=False)
     print("Resposta:", resposta)
     time.sleep(0.5)
