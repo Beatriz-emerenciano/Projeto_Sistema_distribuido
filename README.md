@@ -74,6 +74,7 @@ Motivos da escolha:
 - Compatibilidade entre múltiplas linguagens (Python e Java)
 
 O uso de MessagePack garante interoperabilidade entre diferentes linguagens sem depender de formatos textuais como JSON ou XML.
+
 ## 🔗 Interoperabilidade
 
 O sistema permite comunicação entre diferentes combinações de clientes e servidores:
@@ -95,4 +96,4 @@ Isso é possível graças ao uso de:
 
 ```bash
 docker compose up --build
->>>>>>> 6d3b37b (Projeto sistemas distribuidos completo com Python e Java usando MessagePack)
+
