@@ -1,7 +1,8 @@
 
 # Projeto de Sistemas Distribuídos
+Beatriz Cristina Emerenciano RA: 22.222041-0
+Larissa Santos Fiuza RA: 22.123.042-8
 
->>>>>>> 6d3b37b (Projeto sistemas distribuidos completo com Python e Java usando MessagePack)
 ## 📌 Introdução
 
 Este projeto foi desenvolvido  com o objetivo de implementar um sistema distribuído capaz de realizar comunicação entre múltiplos clientes e servidores utilizando diferentes linguagens de programação.
