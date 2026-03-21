@@ -66,7 +66,7 @@ Motivos da escolha:
 - Alta performance
 - Compatibilidade entre múltiplas linguagens (Python e Java)
 
-O uso de MessagePack garante interoperabilidade entre diferentes linguagens sem depender de formatos textuais como JSON ou XML.
+O uso de MessagePack garante interoperabilidade entre diferentes linguagens *sem* depender de formatos textuais como JSON ou XML.
 
 ## 🔗 Interoperabilidade
 
