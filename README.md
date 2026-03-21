@@ -57,14 +57,6 @@ Essa abordagem permite desacoplamento entre os componentes do sistema.
 Foi utilizada a biblioteca **MessagePack** para serialização das mensagens.
 As mensagens seguem uma estrutura padronizada contendo:
 
-<<<<<<< HEAD
-```python
-{
-  "timestamp": float,
-  "tipo": string,
-  "dados": dict
-}
-=======
 - `timestamp`: instante de envio da mensagem
 - `tipo`: tipo da operação (ex: login, channel, listar_canais)
 - `dados`: conteúdo da mensagem (objeto com informações da operação)
