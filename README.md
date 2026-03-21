@@ -62,7 +62,7 @@ As mensagens seguem uma estrutura padronizada contendo:
 - `dados`: conteúdo da mensagem (objeto com informações da operação)
 
 Motivos da escolha:
-- Formato binário (atende ao requisito do projeto)
+- Formato binário 
 - Alta performance
 - Compatibilidade entre múltiplas linguagens (Python e Java)
 
@@ -88,5 +88,6 @@ Isso é possível graças ao uso de:
 1. Construir e iniciar os containers:
 
 ```bash
+Docker compose down
 docker compose up --build
 
