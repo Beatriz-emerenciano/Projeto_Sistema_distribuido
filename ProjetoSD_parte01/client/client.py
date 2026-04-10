@@ -17,6 +17,7 @@ comandos = [
     ("login", {"usuario": "Beatriz"}),
     ("channel", {"nome": "geral"}),
     ("listar_canais", {})
+    ("publish", {"canal": "geral", "mensagem": "Teste PubSub"})
 ]
 
 for tipo, dados in comandos:
@@ -25,3 +26,4 @@ for tipo, dados in comandos:
     resposta = msgpack.unpackb(socket.recv(), raw=False)
     print("Resposta:", resposta)
     time.sleep(0.5)
+

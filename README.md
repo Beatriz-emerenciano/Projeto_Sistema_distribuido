@@ -91,3 +91,143 @@ Isso é possível graças ao uso de:
 Docker compose down
 docker compose up --build
 
+# Sistema Distribuído com Req/Rep e Pub/Sub parte 02
+
+
+
+O sistema foi desenvolvido utilizando dois padrões de comunicação:
+
+- **Req/Rep (Request/Reply)**  
+  Utilizado para operações de controle entre cliente e servidor:
+  - Login de usuários
+  - Criação de canais
+  - Listagem de canais
+  - Publicação de mensagens
+
+- **Pub/Sub (Publisher/Subscriber)**  
+  Utilizado para distribuição de mensagens em tempo real:
+  - O servidor publica mensagens nos canais
+  - Os bots (clientes) se inscrevem nos canais e recebem as mensagens
+
+---
+
+## 🔌 Portas Utilizadas
+
+- **5555 / 5556 → Broker (Req/Rep)**
+  - 5555: comunicação com clientes
+  - 5556: comunicação com servidores
+
+- **5557 / 5558 → Proxy Pub/Sub**
+  - 5557 (XSUB): recebe mensagens do servidor (publisher)
+  - 5558 (XPUB): envia mensagens para os bots (subscribers)
+
+---
+
+## 🔄 Fluxo de Comunicação
+
+O fluxo de mensagens ocorre da seguinte forma:
+
+Cliente → Servidor → Proxy Pub/Sub → Bots
+
+1. O cliente envia uma requisição ao servidor (REQ)
+2. O servidor processa e publica a mensagem no canal (PUB)
+3. O proxy distribui a mensagem para os bots inscritos
+4. Os bots recebem e exibem a mensagem
+
+---
+
+## 💾 Persistência de Dados
+
+O sistema armazena informações em arquivos locais:
+
+- `usuarios.txt` → usuários cadastrados
+- `canais.txt` → canais criados
+- `mensagens.txt` → mensagens publicadas
+
+Esses dados permitem recuperar o histórico do sistema.
+
+---
+
+## 🤖 Funcionamento dos Bots
+
+Os bots foram implementados para automatizar os testes do sistema:
+
+- Criam canais automaticamente caso existam menos de 5
+- Se inscrevem em até 3 canais aleatórios
+- Executam um loop infinito:
+  - Escolhem um canal aleatório
+  - Enviam 10 mensagens com intervalo de 1 segundo
+- Recebem e exibem mensagens contendo:
+  - Canal
+  - Mensagem
+  - Timestamp de envio
+  - Timestamp de recebimento
+Essa abordagem permite validar o funcionamento completo do sistema distribuído sem intervenção manual.
+---
+
+## ▶️ Como Executar o Projeto
+
+Para rodar o sistema, utilize o Docker:
+
+```bash
+docker-compose up --build
+
+As mensagens e dados do sistema são persistidos em arquivos texto simples:
+
+- `usuarios.txt`
+- `canais.txt`
+- `mensagens.txt`
+
+## ⚙️ Decisões de Projeto
+
+### 🔄 Troca de Mensagens
+
+Para a comunicação entre os componentes do sistema, foram utilizados dois padrões:
+
+- **Req/Rep (Request/Reply)**  
+  Escolhido para operações que exigem resposta direta do servidor, como:
+  - login
+  - criação de canais
+  - listagem de canais
+  - publicação de mensagens  
+
+  Esse padrão garante que o cliente saiba se a operação foi realizada com sucesso, recebendo uma resposta (OK ou erro).
+
+- **Pub/Sub (Publisher/Subscriber)**  
+  Utilizado para distribuição de mensagens em tempo real entre servidor e bots.
+
+  O servidor atua como **publisher**, enviando mensagens para canais (tópicos), enquanto os bots atuam como **subscribers**, recebendo mensagens dos canais nos quais estão inscritos.
+
+  Esse modelo foi escolhido pois permite:
+  - desacoplamento entre produtores e consumidores de mensagens
+  - escalabilidade (vários bots podem receber mensagens simultaneamente)
+  - comunicação assíncrona
+
+---
+
+### 🧱 Uso do Proxy Pub/Sub
+
+Foi utilizado um proxy com sockets **XSUB/XPUB** para intermediar a comunicação entre publishers e subscribers.
+
+Motivações:
+- separar a lógica de distribuição de mensagens do servidor
+- permitir múltiplos publishers e subscribers
+- facilitar a escalabilidade do sistema
+
+---
+
+### 💾 Armazenamento das Publicações
+
+As mensagens e dados do sistema são persistidos em arquivos texto simples:
+
+- `usuarios.txt`
+- `canais.txt`
+- `mensagens.txt`
+
+A escolha por arquivos `.txt` foi feita por:
+- simplicidade de implementação
+- facilidade de leitura e depuração
+- não necessidade de banco de dados para o escopo do projeto
+
+As mensagens são armazenadas no formato:
+>>>>>>> 4284930 (Implementa Parte 2: Pub/Sub com proxy, bot automático e persistência)

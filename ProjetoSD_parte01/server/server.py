@@ -41,9 +41,14 @@ def criar_resposta(tipo, dados):
 context = zmq.Context()
 socket = context.socket(zmq.REP)
 socket.connect("tcp://broker:5556")
+#nova implementação
+# SOCKET PUB (novo)
+pub_socket = context.socket(zmq.PUB)
+pub_socket.connect("tcp://proxy_pubsub:5557")
 
 print("Servidor rodando...")
 
+#implementação nova
 while True:
     mensagem = msgpack.unpackb(socket.recv(), raw=False)
     tipo = mensagem["tipo"]
@@ -63,6 +68,35 @@ while True:
             resposta = criar_resposta("login", {
                 "status": "erro",
                 "mensagem": "Usuário já existe"
+            })
+
+    # PUBLICAR MENSAGEM
+    elif tipo == "publish":
+        canal = dados["canal"]
+        mensagem_texto = dados["mensagem"]
+
+        if canal not in canais:
+            resposta = criar_resposta("publish", {
+                "status": "erro",
+                "mensagem": "Canal não existe"
+            })
+        else:
+            payload = {
+                "canal": canal,
+                "mensagem": mensagem_texto,
+                "timestamp_envio": time.time()
+            }
+
+            # ENVIA PARA O PROXY
+            pub_socket.send_string(f"{canal} {msgpack.packb(payload).hex()}")
+
+            # SALVAR EM DISCO
+            with open("mensagens.txt", "a") as f:
+                f.write(f"{canal}|{mensagem_texto}|{payload['timestamp_envio']}\n")
+
+            resposta = criar_resposta("publish", {
+                "status": "sucesso",
+                "mensagem": "Mensagem publicada"
             })
 
     # CANAL
