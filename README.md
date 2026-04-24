@@ -81,17 +81,17 @@ Isso é possível graças ao uso de:
 - Um protocolo comum (MessagePack)
 - Um broker intermediador (ZeroMQ)
 
----
+
 
 ## ▶️ Como Executar
 
 1. Construir e iniciar os containers:
 
-```bash
+bash:
 Docker compose down
 docker compose up --build
 
-# Sistema Distribuído com Req/Rep e Pub/Sub parte 02
+## Sistema Distribuído com Req/Rep e Pub/Sub parte 02
 
 
 
@@ -109,7 +109,7 @@ O sistema foi desenvolvido utilizando dois padrões de comunicação:
   - O servidor publica mensagens nos canais
   - Os bots (clientes) se inscrevem nos canais e recebem as mensagens
 
----
+
 
 ## 🔌 Portas Utilizadas
 
