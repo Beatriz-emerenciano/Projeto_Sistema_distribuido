@@ -17,7 +17,7 @@ services:
       - ./server/server.py:/app/main.py
     depends_on:
       - broker
-       - proxy_pubsub 
+      - proxy_pubsub 
 
   servidor2:
     build: ./server-java
@@ -38,6 +38,7 @@ services:
     container_name: cliente2
     depends_on:
       - broker
+
   proxy_pubsub:
     build: .
     container_name: proxy_pubsub
@@ -54,4 +55,11 @@ services:
       - ./bot/bot.py:/app/main.py
     depends_on:
       - broker
-      - proxy_pubsub      
+      - proxy_pubsub   
+
+  
+  coordenador:
+    build: ./coordenador
+    container_name: coordenador
+    ports:
+      - "5560:5560"

@@ -231,3 +231,40 @@ A escolha por arquivos `.txt` foi feita por:
 
 As mensagens são armazenadas no formato:
 >>>>>>> 4284930 (Implementa Parte 2: Pub/Sub com proxy, bot automático e persistência)
+
+## Parte 3 – Relógios e Sincronização
+
+Nesta etapa foram implementados relógios lógicos e sincronização entre os processos do sistema distribuído.
+
+### Relógio Lógico
+
+Foi adicionado em clientes, bots e servidores. O contador é incrementado antes do envio de cada mensagem e atualizado no recebimento utilizando a regra:
+
+```
+clock = max(clock_local, clock_recebido) + 1
+```
+
+O valor do relógio lógico passou a ser incluído em todas as mensagens no campo `"clock"`.
+
+### Coordenador
+
+Foi criado um novo serviço responsável por:
+
+* Registrar servidores e atribuir um rank
+* Manter a lista de servidores ativos
+* Remover servidores inativos (sem heartbeat)
+* Fornecer o horário para sincronização
+
+### Heartbeat
+
+Os servidores enviam mensagens periódicas ao coordenador (a cada 10 mensagens processadas) para:
+
+* Indicar que continuam ativos
+* Atualizar o relógio físico com base no coordenador
+
+### Atualizações realizadas
+
+* `client` e `bot`: implementação de relógio lógico
+* `server`: relógio lógico + heartbeat + sincronização
+* `coordenador`: novo serviço adicionado
+* `docker-compose`: atualizado com o serviço de coordenação
