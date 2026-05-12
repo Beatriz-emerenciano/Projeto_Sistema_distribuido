@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   broker:
-    build: .
+    build: ./broker
     container_name: broker
     volumes:
       - ./broker/broker.py:/app/main.py
@@ -11,7 +11,7 @@ services:
       - "5556:5556"
 
   servidor1:
-    build: .
+    build: ./server
     container_name: servidor1
     volumes:
       - ./server/server.py:/app/main.py
@@ -26,7 +26,7 @@ services:
       - broker
 
   cliente1:
-    build: .
+    build: ./client
     container_name: cliente1
     volumes:
       - ./client/client.py:/app/main.py
@@ -40,7 +40,7 @@ services:
       - broker
 
   proxy_pubsub:
-    build: .
+    build: ./proxy_pubsub
     container_name: proxy_pubsub
     volumes:
       - ./proxy_pubsub/proxy_pubsub.py:/app/main.py
@@ -49,7 +49,7 @@ services:
       - "5558:5558" 
 
   bot:
-    build: .
+    build: ./bot
     container_name: bot
     volumes:
       - ./bot/bot.py:/app/main.py

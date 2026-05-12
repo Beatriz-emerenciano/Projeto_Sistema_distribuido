@@ -6,4 +6,4 @@ RUN pip install pyzmq msgpack
 
 COPY . .
 
-CMD ["python", "main.py"]
+CMD ["python", "server.py"]

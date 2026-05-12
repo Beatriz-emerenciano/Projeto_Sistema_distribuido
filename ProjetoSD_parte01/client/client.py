@@ -10,7 +10,7 @@ def criar_mensagem(tipo, dados):
 
     return msgpack.packb({
         "timestamp": time.time(),
-        "clock": clock, 
+        "clock": clock,
         "tipo": tipo,
         "dados": dados
     })
@@ -18,25 +18,44 @@ def criar_mensagem(tipo, dados):
 context = zmq.Context()
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://broker:5555")
-#foi criaod o canal antes porque Porque o sistema de Pub/Sub exige que o canal exista antes da publicação, garantindo consistência na entrega das mensagens.
-comandos = [
-    ("login", {"usuario": "Beatriz"}),
-    ("channel", {"nome": "geral"}),
-    #("listar_canais", {}),
-    ("publish", {"canal": "geral", "mensagem": "Teste PubSub"})
-]
 
+# LISTA GRANDE DE COMANDOS
+comandos = []
+
+# login inicial
+comandos.append(("login", {"usuario": "Beatriz"}))
+comandos.append(("channel", {"nome": "geral"}))
+
+# envia MUITAS mensagens
+for i in range(20):
+    comandos.append((
+        "publish",
+        {
+            "canal": "geral",
+            "mensagem": f"Mensagem {i}"
+        }
+    ))
+
+# EXECUTA
 for tipo, dados in comandos:
+
     mensagem = criar_mensagem(tipo, dados)
+
     socket.send(mensagem)
 
-    resposta = msgpack.unpackb(socket.recv(), raw=False)
+    resposta = msgpack.unpackb(
+        socket.recv(),
+        raw=False
+    )
 
-    #  ATUALIZA O CLOCK CORRETAMENTE
-    clock = max(clock, resposta.get("clock", 0)) + 1
+    # CLOCK LAMPORT
+    clock = max(
+        clock,
+        resposta.get("clock", 0)
+    ) + 1
 
     print("Clock atualizado:", clock)
     print("Resposta:", resposta)
     print("-" * 40)
 
-    time.sleep(0.5)
+    time.sleep(0.3)
